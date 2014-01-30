@@ -122,7 +122,25 @@ static void *get_proc(void *libgl, const char *proc)
 }
 '''
     common = '''
-#ifdef _WIN32
+#ifdef GLXW_USE_SDL
+#include <SDL.h>
+
+static void* open_libgl(void)
+{
+    return (void*)1;
+}
+
+static void close_libgl(void* libgl)
+{
+    (void)libgl;
+}
+
+static void *get_proc(void *libgl, const char *proc)
+{
+    (void)libgl;
+    return SDL_GL_GetProcAddress(proc);
+}
+#elif defined(_WIN32)
 #define WIN32_LEAN_AND_MEAN 1
 #include <windows.h>
 

@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 2.8.8)
 
 project(glxw C)
 
@@ -46,6 +46,10 @@ add_custom_command(
     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
 
 add_library(glxw STATIC ${CMAKE_CURRENT_BINARY_DIR}/src/glxw.c)
+
+add_library(glxw-sdl STATIC EXCLUDE_FROM_ALL ${CMAKE_CURRENT_BINARY_DIR}/src/glxw.c)
+set_property(TARGET glxw-sdl APPEND PROPERTY INCLUDE_DIRECTORIES "${SDL2_INCLUDE_DIR}")
+set_property(TARGET glxw-sdl APPEND PROPERTY COMPILE_DEFINITIONS "GLXW_USE_SDL=1")
 
 # GLX
 find_path(GLX_INCLUDE_DIR GL/glx.h)
